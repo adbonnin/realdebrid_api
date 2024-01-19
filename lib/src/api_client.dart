@@ -25,6 +25,7 @@ class ApiClient {
     String pathTemplate, {
     Map<String, String>? pathParameters,
     Map<String, String>? queryParameters,
+    Map<String, String>? fieldParameters,
     Map<String, String>? headers,
     dynamic body,
   }) async {
@@ -53,17 +54,24 @@ class ApiClient {
       );
     }
 
-    var request = http.Request(method, uri);
+    final http.BaseRequest request;
 
-    if (body is Uint8List) {
-      request
+    if (fieldParameters != null) {
+      request = http.MultipartRequest(method, uri) //
+        ..fields.addAll(fieldParameters);
+    } //
+    else if (body is Uint8List) {
+      request = http.Request(method, uri)
         ..headers['content-type'] = 'application/octet-stream'
         ..bodyBytes = body;
     } //
     else if (body != null) {
-      request
+      request = http.Request(method, uri)
         ..headers['content-type'] = 'application/json'
         ..body = jsonEncode(body);
+    } //
+    else {
+      request = http.Request(method, uri);
     }
 
     if (headers != null) {
@@ -139,7 +147,10 @@ class ApiException implements Exception {
 
   @override
   String toString() {
-    return 'ApiException($statusCode, $reasonPhrase, url: $url, error: $error, errorCode: $errorCode)';
+    return 'ApiException($statusCode, $reasonPhrase, '
+        'url: $url, '
+        'error: $error, '
+        'errorCode: $errorCode)';
   }
 
   static void checkResponse(http.Response response) {
