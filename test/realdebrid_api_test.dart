@@ -1,16 +1,42 @@
+import 'dart:convert';
+
 import 'package:realdebrid_api/realdebrid_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
-    final awesome = Awesome();
+  group('User', () {
+    test('should parse json', () async {
+      final json = jsonDecode("""
+      {
+        "id": 415000,
+        "username": "JohnDoe",
+        "email": "john.doe@gmail.com",
+        "points": 1200,
+        "locale": "en",
+        "avatar": "https://fcdn.real-debrid.com/images/forum/empty.png",
+        "type": "premium",
+        "premium": 15000000,
+        "expiration": "2024-08-07T10:10:00.000Z"
+      }
+      """);
 
-    setUp(() {
-      // Additional setup goes here.
-    });
+      // when:
+      final user = User.fromJson(json);
 
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
+      // then:
+      final expectedUser = User(
+        id: 415000,
+        username: "JohnDoe",
+        email: "john.doe@gmail.com",
+        points: 1200,
+        locale: "en",
+        avatar: "https://fcdn.real-debrid.com/images/forum/empty.png",
+        type: "premium",
+        premium: 15000000,
+        expiration: "2024-08-07T10:10:00.000Z",
+      );
+
+      expect(user, equals(expectedUser));
     });
   });
 }
