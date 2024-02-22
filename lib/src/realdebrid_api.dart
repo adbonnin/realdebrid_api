@@ -8,12 +8,40 @@ class RealDebridApi {
 
   final ApiClient client;
 
+  late final time = TimeApi(client);
   late final user = UserApi(client);
   late final torrents = TorrentsApi(client);
+
+  Future<void> disableAccessToken() async {
+    return await client.send(
+      'get',
+      '/disable_access_token',
+    );
+  }
+}
+
+class TimeApi {
+  const TimeApi(this.client);
+
+  final ApiClient client;
+
+  Future<String> getTime() async {
+    return (await client.send(
+      'get',
+      '/time',
+    ));
+  }
+
+  Future<String> getIsoTime() async {
+    return (await client.send(
+      'get',
+      '/time/iso',
+    ));
+  }
 }
 
 class UserApi {
-  UserApi(this.client);
+  const UserApi(this.client);
 
   final ApiClient client;
 
@@ -26,7 +54,7 @@ class UserApi {
 }
 
 class TorrentsApi {
-  TorrentsApi(this._client);
+  const TorrentsApi(this._client);
 
   final ApiClient _client;
 

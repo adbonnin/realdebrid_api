@@ -81,11 +81,11 @@ class ApiClient {
     final response = await http.Response.fromStream(await client.send(request));
     ApiException.checkResponse(response);
 
-    final decoded = _decode(response);
+    final decoded = _decode(response, T);
     return decoded as T;
   }
 
-  dynamic _decode(http.Response response) {
+  dynamic _decode(http.Response response, Type responseType) {
     final bytes = response.bodyBytes;
 
     if (bytes.isEmpty) {
@@ -93,6 +93,11 @@ class ApiClient {
     }
 
     final responseBody = utf8.decode(bytes);
+
+    if (responseType == String) {
+      return responseBody;
+    }
+
     return jsonDecode(responseBody);
   }
 
