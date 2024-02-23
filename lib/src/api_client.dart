@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
+part of '../realdebrid_api.dart';
 
 class ApiClient {
   const ApiClient(this.baseUri, this.client);
