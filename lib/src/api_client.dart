@@ -94,7 +94,7 @@ class ApiClient {
       return responseBody;
     }
 
-    return jsonDecode(responseBody);
+    return responseBody.isEmpty ? null : jsonDecode(responseBody);
   }
 
   void close() {

@@ -7,6 +7,7 @@ class RealDebridApi {
 
   late final time = TimeApi(client);
   late final user = UserApi(client);
+  late final unrestrict = UnrestrictApi(client);
   late final torrents = TorrentsApi(client);
 
   Future<void> disableAccessToken() async {

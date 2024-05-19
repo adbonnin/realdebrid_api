@@ -15,7 +15,7 @@ class TorrentsApi {
   }) async {
     final filter = activeFirst ? 'active' : null;
 
-    return TorrentItem.fromJsonList(await _client.send(
+    return TorrentItem.fromJsonList.nullToEmpty(await _client.send(
       'get',
       '/torrents',
       queryParameters: {
