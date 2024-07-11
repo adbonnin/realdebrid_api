@@ -89,7 +89,7 @@ void main() {
       """);
 
       // when:
-      final cachedTorrents = CachedTorrent.fromJsonMap(json);
+      final cachedTorrents = CachedTorrent.fromJsonObject(json);
 
       // then:
       expect(

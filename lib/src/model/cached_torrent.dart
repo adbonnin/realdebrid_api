@@ -9,7 +9,7 @@ class CachedTorrent {
   final String hash;
   final List<CachedAlternative> cachedAlternatives;
 
-  static List<CachedTorrent> fromJsonMap(Map<String, dynamic> json) {
+  static List<CachedTorrent> fromJsonObject(Map<String, dynamic> json) {
     return json.entries //
         .map((e) => CachedTorrent.fromJson(e.key, e.value))
         .toList();

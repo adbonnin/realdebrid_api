@@ -42,7 +42,7 @@ class TorrentsApi {
 
   /// Get list of instantly available file IDs by hoster, {hash} is the SHA1 of the torrent.
   Future<List<CachedTorrent>> getInstantAvailability(List<String> hashes) async {
-    return CachedTorrent.fromJsonMap(await _client.send(
+    return CachedTorrent.fromJsonObject(await _client.send(
       'get',
       '/torrents/instantAvailability/{hash}',
       queryParameters: {
