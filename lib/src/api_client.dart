@@ -1,21 +1,36 @@
 part of '../realdebrid_api.dart';
 
-class ApiClient {
-  const ApiClient(this.baseUri, this.client);
+abstract class ApiClient {
+  Future<T> send<T>(
+    String method,
+    String pathTemplate, {
+    Map<String, String>? pathParameters,
+    Map<String, String>? queryParameters,
+    Map<String, String>? fieldParameters,
+    Map<String, String>? headers,
+    dynamic body,
+  });
+
+  void close();
+}
+
+class RealDebridApiClient implements ApiClient {
+  const RealDebridApiClient(this.baseUri, this.client);
 
   final Uri baseUri;
   final http.Client client;
 
-  factory ApiClient.basicAuthentication({
+  factory RealDebridApiClient.basicAuthentication({
     Uri? baseUri,
     required String apiToken,
     http.Client? client,
   }) {
     baseUri ??= Uri.parse('https://api.real-debrid.com/rest/1.0/');
     client ??= http.Client();
-    return ApiClient(baseUri, BasicAuthenticationClient(client, apiToken: apiToken));
+    return RealDebridApiClient(baseUri, BasicAuthenticationClient(client, apiToken: apiToken));
   }
 
+  @override
   Future<T> send<T>(
     String method,
     String pathTemplate, {
@@ -97,6 +112,7 @@ class ApiClient {
     return responseBody.isEmpty ? null : jsonDecode(responseBody);
   }
 
+  @override
   void close() {
     client.close();
   }
