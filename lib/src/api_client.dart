@@ -14,20 +14,20 @@ abstract class ApiClient {
   void close();
 }
 
-class RealDebridApiClient implements ApiClient {
-  const RealDebridApiClient(this.baseUri, this.client);
+class BaseApiClient implements ApiClient {
+  const BaseApiClient(this.baseUri, this.client);
 
   final Uri baseUri;
   final http.Client client;
 
-  factory RealDebridApiClient.basicAuthentication({
+  factory BaseApiClient.basicAuthentication({
     Uri? baseUri,
     required String apiToken,
     http.Client? client,
   }) {
     baseUri ??= Uri.parse('https://api.real-debrid.com/rest/1.0/');
     client ??= http.Client();
-    return RealDebridApiClient(baseUri, BasicAuthenticationClient(client, apiToken: apiToken));
+    return BaseApiClient(baseUri, BasicAuthenticationClient(client, apiToken: apiToken));
   }
 
   @override
