@@ -22,9 +22,16 @@ class TorrentItem {
 
   final String id;
   final String filename;
+
+  /// Original name of the torrent
   final String? originalFilename;
+
+  /// SHA1 Hash of the torrent
   final String hash;
+
+  /// Size of selected files only
   final int bytes;
+
   final int? originalBytes;
   final String host;
   final int split;
@@ -86,8 +93,8 @@ class TorrentItem {
         progress == other.progress &&
         status == other.status &&
         added == other.added &&
-        files == other.files &&
-        links == other.links &&
+        listEquals(files, other.files) &&
+        listEquals(links, other.links) &&
         ended == other.ended &&
         speed == other.speed &&
         seeders == other.seeders;
